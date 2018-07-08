@@ -3,12 +3,26 @@ package project3;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 
+/**********************************************************************
+ * Creates a DVD to be rented 
+ * 
+ * @author Jarod Collier and Ben Burger
+ * @version 7/7/18
+ *********************************************************************/
 public class DVD implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** The date the DVD was rented */
 	protected GregorianCalendar bought;
+	
+	/** The date the DVD is due back */
 	protected GregorianCalendar dueBack;
+	
+	/** The title of the DVD */
 	protected String title;
+	
+	/** The name of the person who is renting the DVD */
 	protected String nameOfRenter; 
 
 	public DVD() {

@@ -8,6 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**********************************************************************
+ * Creates the GUI for the rental store
+ * 
+ * @author Jarod Collier and Ben Burger
+ * @version 7/7/18
+ *********************************************************************/
 public class RentalStoreGUI extends JFrame implements ActionListener {
 
 	/**

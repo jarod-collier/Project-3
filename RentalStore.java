@@ -5,6 +5,12 @@ import java.io.*;
 import java.text.DateFormat;
 import java.util.*;
 
+/**********************************************************************
+ * Creates the Rental Store
+ * 
+ * @author Jarod Collier and Ben Burger
+ * @version 7/7/18
+ *********************************************************************/
 public class RentalStore extends AbstractListModel {
 
 	private ArrayList<DVD> listDVDs;

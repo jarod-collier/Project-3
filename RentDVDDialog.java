@@ -9,6 +9,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 
+/**********************************************************************
+ * Creates the dialogue for when a DVD is rented
+ * 
+ * @author Jarod Collier and Ben Burger
+ * @version 7/7/18
+ *********************************************************************/
 public class RentDVDDialog extends JDialog implements ActionListener {
 
 	private JTextField titleTxt;
