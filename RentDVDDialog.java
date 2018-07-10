@@ -4,9 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 /**********************************************************************
@@ -46,11 +49,11 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 		textPanel.setLayout(new GridLayout(6, 2));
 
 		textPanel.add(new JLabel("Your Name:"));
-		renterTxt = new JTextField("John Doe", 30);
+		renterTxt = new JTextField("Ben Burger", 30);
 		textPanel.add(renterTxt);
 
 		textPanel.add(new JLabel("Title of DVD:"));
-		titleTxt = new JTextField("Avengers", 30);
+		titleTxt = new JTextField("Step Brothers", 30);
 		textPanel.add(titleTxt);
 
 		Date date = Calendar.getInstance().getTime();
@@ -94,8 +97,36 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 			// save the information in the object
 			closeStatus = true;
 
+			// Sets DVD buyer's name
 			unit.setNameOfRenter(renterTxt.getText());
+
+			// Sets the DVD's title
 			unit.setTitle(titleTxt.getText());
+
+			// Sets the DVD's date bought
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			try {
+				Date date = df.parse(rentedOnTxt.getText());
+				GregorianCalendar cal = new GregorianCalendar();
+				cal.setTime(date);
+				unit.setBought(cal);
+			}
+			catch (ParseException ex) {
+				ex.printStackTrace();
+			}
+
+			// Sets the DVD's due date
+			try {
+				Date date = df.parse(DueBackTxt.getText());
+				GregorianCalendar cal = new GregorianCalendar();
+				cal.setTime(date);
+				unit.setDueBack(cal);
+			}
+			catch (ParseException ex) {
+				ex.printStackTrace();
+			}
+
+
 
 		}
 

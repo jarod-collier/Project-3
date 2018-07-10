@@ -93,13 +93,10 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		list = new RentalStore();
 		JListArea = new JList(list);
 		add(JListArea);
-		//	JListArea.setVisible(true);
+			JListArea.setVisible(true);
 
 		setVisible(true);
-		setSize(400, 400);
-		//		setSize(new Dimension (550,400));
-		//		setMinimumSize(new Dimension(550,400));
-		//		setMaximumSize(new Dimension(550,400));
+		setSize(650, 600);
 
 	}
 
@@ -131,10 +128,17 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		if (e.getSource() == exitItem) {
 			System.exit(1);
 		}
+		
 		if (e.getSource() == rentDVD) {
 			DVD dvd = new DVD();
 			RentDVDDialog dialog = new RentDVDDialog(this, dvd);
 			list.add(dvd);
+		}
+		
+		if (e.getSource() == rentGame) {
+			Game game = new Game();
+			RentGameDialog dialog = new RentGameDialog(this, game);
+			list.add(game);
 		}
 
 		if (returnItem == e.getSource()) {

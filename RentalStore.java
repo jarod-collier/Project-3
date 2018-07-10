@@ -13,14 +13,14 @@ import java.util.*;
  *********************************************************************/
 public class RentalStore extends AbstractListModel {
 
-	private ArrayList<DVD> listDVDs;
+	private LinkedList<DVD> listDVDs;
 
 	private boolean filter;
 
 	public RentalStore() {
 		super();
 		filter = false;
-		listDVDs = new ArrayList<DVD>();
+		listDVDs = new LinkedList<DVD>();
 	}
 
 	public void add (DVD a) {
@@ -28,29 +28,38 @@ public class RentalStore extends AbstractListModel {
 		fireIntervalAdded(this, 0, listDVDs.size());
 	}
 
+	public void remove (DVD a) {
+		listDVDs.remove(a);
+		fireIntervalRemoved(this, 0, listDVDs.size());
+	}
+
 	public DVD get (int i) {
 		return listDVDs.get(i);
 	}
 
-	public Object getElementAt(int arg0) {	
+	public void update() {
 
-			//return "Happy";
+	}
+
+	public Object getElementAt(int arg0) {	
 
 		DVD unit = listDVDs.get(arg0);
 
-		//		String rentedOnDateStr = DateFormat.getDateInstance(DateFormat.SHORT)
-		//				.format(unit.getRentedOn().getTime());
+//		String rentedOnDateStr = DateFormat.getDateInstance(DateFormat.SHORT)
+//				.format(unit.getBought().getTime());
+		
+		String line = unit.toString();
 
-		String line = "Name: " + " " + listDVDs.get(arg0).getNameOfRenter();
-
-		//		if (unit instanceof Game)
-		//			line += ", Car Player: " + ((Game)unit).getPlayer();
+//		String line = "Name: " + " " + listDVDs.get(arg0).getNameOfRenter();
+//
+//		if (unit instanceof Game)
+//			line += ", Car Player: " + ((Game)unit).getPlayer();
 
 		return line;
 	}
 
 	public int getSize() {
-	//	return 5;
+		//	return 5;
 		return listDVDs.size();
 	}
 
@@ -72,7 +81,7 @@ public class RentalStore extends AbstractListModel {
 			FileInputStream fis = new FileInputStream(filename);
 			ObjectInputStream is = new ObjectInputStream(fis);
 
-			listDVDs = (ArrayList<DVD>) is.readObject();
+			listDVDs = (LinkedList<DVD>) is.readObject();
 			fireIntervalAdded(this, 0, listDVDs.size() - 1);
 			is.close();
 		}

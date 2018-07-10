@@ -1,7 +1,10 @@
 package project3;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.Date;
 
 /**********************************************************************
  * Creates a DVD to be rented 
@@ -12,16 +15,16 @@ import java.util.GregorianCalendar;
 public class DVD implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The date the DVD was rented */
 	protected GregorianCalendar bought;
-	
+
 	/** The date the DVD is due back */
 	protected GregorianCalendar dueBack;
-	
+
 	/** The title of the DVD */
 	protected String title;
-	
+
 	/** The name of the person who is renting the DVD */
 	protected String nameOfRenter; 
 
@@ -39,15 +42,15 @@ public class DVD implements Serializable {
 	public GregorianCalendar getBought() {
 		return bought;
 	}
-	
+
 	public void setBought(GregorianCalendar bought) {
 		this.bought = bought;
 	}
-	
+
 	public GregorianCalendar getDueBack() {
 		return dueBack;
 	}
-	
+
 	public void setDueBack(GregorianCalendar dueBack) {
 		this.dueBack = dueBack;
 	}
@@ -69,6 +72,25 @@ public class DVD implements Serializable {
 	}
 
 	public double getCost(GregorianCalendar date) {
-		return 2.0;
+		if (date.compareTo(dueBack) <= 0)	
+			return 1.20;
+		else
+			return 3.20;
+	}
+
+	public static String convertDateToString(GregorianCalendar gDate) {
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
+		Date date = gDate.getTime();
+
+		String dateString = df.format(date);
+
+		return dateString;
+	}
+
+	public String toString() {
+		return "Name: " + nameOfRenter + ", Title: " + title +
+				", rented on: " + convertDateToString(bought) +
+				", Due back on: " + convertDateToString(dueBack);
 	}
 }
