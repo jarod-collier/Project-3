@@ -7,5 +7,5 @@ package project3;
  * @version 7/7/18
  *********************************************************************/
 public enum PlayerType {
-	Xbox360, XBox1, PS4, WiiU, NintendoSwitch
+	Xbox360, Xbox1, PS4, WiiU, NintendoSwitch
 }

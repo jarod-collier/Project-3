@@ -142,6 +142,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		}
 
 		if (returnItem == e.getSource()) {
+			
 			int index = JListArea.getSelectedIndex();
 
 			GregorianCalendar date = new GregorianCalendar();
@@ -150,15 +151,21 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 			try {
 				Date newDate = df.parse(inputDate);
 				date.setTime(newDate);
+				
+				DVD unit = list.get(index);
+				JOptionPane.showMessageDialog(null, "Thanks " + unit.getNameOfRenter() +
+						" for returning " + unit.getTitle() + ", you owe: " + unit.getCost(date) +
+						" dollars");
+				list.remove(unit);
 			}
 			catch (ParseException pe){
-				System.out.println("Could not parse input date!");
+				JOptionPane.showMessageDialog(null, "Please enter" + 
+						" valid return date format");
 			}
-
-			DVD unit = list.get(index);
-			JOptionPane.showMessageDialog(null, "Thanks " + unit.getNameOfRenter() +
-					" for returning " + unit.getTitle() + ", you owe: " + unit.getCost(date) +
-					" dollars");
+			catch (Exception ex ) {
+				JOptionPane.showMessageDialog(null, "Please enter" + 
+						" something that works for the return date");
+			}			
 		}
 	}
 

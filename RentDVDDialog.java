@@ -40,6 +40,7 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 		setSize(400, 200);
 
 		unit = d;
+		
 		// prevent user from closing window
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -103,35 +104,97 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 			// Sets the DVD's title
 			unit.setTitle(titleTxt.getText());
 
+
 			// Sets the DVD's date bought
-			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			try {
-				Date date = df.parse(rentedOnTxt.getText());
-				GregorianCalendar cal = new GregorianCalendar();
-				cal.setTime(date);
-				unit.setBought(cal);
-			}
-			catch (ParseException ex) {
-				ex.printStackTrace();
-			}
+			boolean goodBoughtDate = setsDvdDateBought();
 
-			// Sets the DVD's due date
-			try {
-				Date date = df.parse(DueBackTxt.getText());
-				GregorianCalendar cal = new GregorianCalendar();
-				cal.setTime(date);
-				unit.setDueBack(cal);
-			}
-			catch (ParseException ex) {
-				ex.printStackTrace();
-			}
+			if (goodBoughtDate == true) {
 
+				// Sets the DVD's due date
+				boolean goodReturnDate = setsDvdDueDate();
+
+				// make the dialog disappear
+				if (goodReturnDate == true) 
+					dispose();
+			}
+		}
+		
+		if (button == cancelButton) {
+			dispose();
+		}
+
+
+	}
+
+
+
+	private boolean setsDvdDateBought() {
+
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		try {
+			Date date = df.parse(rentedOnTxt.getText());
+			String[] s = DueBackTxt.getText().split("/");
+
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.setTime(date);
+
+			String[] greg = unit.convertDateToString(cal).split("/");
+
+			if (!s[0].equals(greg[0]) || !s[2].equals(greg[2]))
+				throw new Exception();
+
+
+			unit.setBought(cal);
+		}
+		catch (ParseException ex) {
+			JOptionPane.showMessageDialog(null, "Please enter" + 
+					" valid bought date.");
+			return false;
+		}
+		catch (Exception exception) {
+			JOptionPane.showMessageDialog(null, "Please enter" + 
+					" something that works 1123121");
+			return false;
+		}
+		return true;
+	}
+
+	private boolean setsDvdDueDate() {
+
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		try {
+			Date date = df.parse(DueBackTxt.getText());
+			String[] s = DueBackTxt.getText().split("/");
+
+
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.setTime(date);
+
+			String[] greg = unit.convertDateToString(cal).split("/");
+
+			if (!s[0].equals(greg[0]) || !s[2].equals(greg[2]))
+				throw new Exception();
+
+
+			if (cal.compareTo(unit.getBought()) < 0)
+				throw new Exception();		
+
+
+			unit.setDueBack(cal);
 
 
 		}
-
-		// make the dialog disappear
-		dispose();
+		catch (ParseException ex) {
+			JOptionPane.showMessageDialog(null, "Please enter" + 
+					" valid due date format");
+			return false;
+		}
+		catch (Exception exc) {
+			JOptionPane.showMessageDialog(null, "Please enter" + 
+					" something that works for the due date");
+			return false;
+		}
+		return true;
 	}
 
 	public boolean closeOK() {

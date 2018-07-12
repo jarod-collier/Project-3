@@ -42,7 +42,8 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 		setSize(400, 200);
 
 		unit = g;
-		// prevent user from closing window
+
+		// prevent user from closing window	
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
 		// instantiate and display text fields
@@ -75,7 +76,7 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 		textPanel.add(DueBackTxt);
 
 		textPanel.add(new JLabel("Type of Player: "));
-		typeOfPlayer = new JTextField("XBox1", 15);
+		typeOfPlayer = new JTextField("Xbox1", 15);
 		textPanel.add(typeOfPlayer);
 
 		getContentPane().add(textPanel, BorderLayout.CENTER);
@@ -94,11 +95,15 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 		setVisible(true);
 	}
 
+
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		JButton button = (JButton) e.getSource();
 
+		
+		
 		// if OK clicked the fill the object
 		if (button == okButton) {
 			// save the information in the object
@@ -110,36 +115,116 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 			// Sets the Game's title
 			unit.setTitle(titleTxt.getText());
 
-			// Sets the Game's date bought
-			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			try {
-				Date date = df.parse(rentedOnTxt.getText());
-				GregorianCalendar cal = new GregorianCalendar();
-				cal.setTime(date);
-				unit.setBought(cal);
-			}
-			catch (ParseException ex) {
-				ex.printStackTrace();
-			}
 
-			// Sets the Game's due date
-			try {
-				Date date = df.parse(DueBackTxt.getText());
-				GregorianCalendar cal = new GregorianCalendar();
-				cal.setTime(date);
-				unit.setDueBack(cal);
+			// Sets the Game's date bought
+			boolean goodBoughtDate = setsGameDateBought();
+
+			if (goodBoughtDate) {
+
+				// Sets the Game's due date
+				boolean goodReturnDate = setsGameDueDate();
+
+
+				if (goodReturnDate) {
+
+					//Checks if user entered valid Player Type
+					boolean goodPlayerType = checksValidPlayerType();
+
+					// make the dialog disappear
+					if (goodPlayerType)					
+						dispose();
+				}
+
 			}
-			catch (ParseException ex) {
-				ex.printStackTrace();
-			}
-			
-			// Sets the Game's player type
+		}
+		
+		if (button == cancelButton) {
+			dispose();
+		}
+		
+	}
+	
+
+	private boolean setsGameDateBought() {
+
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		try {
+			Date date = df.parse(rentedOnTxt.getText());
+			String[] s = DueBackTxt.getText().split("/");
+
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.setTime(date);
+
+			String[] greg = unit.convertDateToString(cal).split("/");
+
+			if (!s[0].equals(greg[0]) || !s[2].equals(greg[2]))
+				throw new Exception();
+
+
+			unit.setBought(cal);
+		}
+		catch (ParseException ex) {
+			JOptionPane.showMessageDialog(null, "Please enter" + 
+					" valid bought date format");
+			return false;
+		}
+		catch (Exception exception) {
+			JOptionPane.showMessageDialog(null, "Please enter" + 
+					" something that works for the bought date");
+			return false;
+		}
+		return true;
+	}
+
+	private boolean setsGameDueDate() {
+
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		try {
+			Date date = df.parse(DueBackTxt.getText());
+			String[] s = DueBackTxt.getText().split("/");
+
+
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.setTime(date);
+
+			String[] greg = unit.convertDateToString(cal).split("/");
+
+			if (!s[0].equals(greg[0]) || !s[2].equals(greg[2]))
+				throw new Exception();
+
+
+			if (cal.compareTo(unit.getBought()) < 0)
+				throw new Exception();		
+
+
+			unit.setDueBack(cal);
+		}
+		catch (ParseException ex) {
+			JOptionPane.showMessageDialog(null, "Please enter" + 
+					" valid due date format");
+			return false;
+		}
+		catch (Exception exc) {
+			JOptionPane.showMessageDialog(null, "Please enter" + 
+					" something that works for the due date");
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean checksValidPlayerType() {
+
+		// Sets the Game's player type
+		try {
 			PlayerType p = PlayerType.valueOf(typeOfPlayer.getText());
 			unit.setPlayer(p);
 		}
-
-		// make the dialog disappear
-		dispose();
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Please enter" + 
+					" valid Player Type");
+			return false;
+		}
+		return true;
 	}
 
 	public boolean closeOK() {

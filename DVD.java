@@ -78,7 +78,7 @@ public class DVD implements Serializable {
 			return 3.20;
 	}
 
-	public static String convertDateToString(GregorianCalendar gDate) {
+	public String convertDateToString(GregorianCalendar gDate) {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
 		Date date = gDate.getTime();
