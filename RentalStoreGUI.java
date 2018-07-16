@@ -5,8 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -18,43 +16,54 @@ import java.util.GregorianCalendar;
  *********************************************************************/
 public class RentalStoreGUI extends JFrame implements ActionListener {
 
-	/**
-	 * Holds menu bar
-	 */
+	/** Holds menu bar */
 	private JMenuBar menus;
 
-	/**
-	 * menus in the menu bar
-	 */
+	/** File menu in the menu bar */
 	private JMenu fileMenu;
+	
+	/** Action menu in the menu bar */
 	private JMenu actionMenu;
 
-	/**
-	 * menu items in each of the menus
-	 */
+	/** Opens save file menu item */
 	private JMenuItem openSerItem;
+	
+	/** Menu item to exit program */
 	private JMenuItem exitItem;
+	
+	/** Menu item to save files */
 	private JMenuItem saveSerItem;
+	
+	/** Menu item to open a text item */
 	private JMenuItem openTextItem;
+	
+	/** Menu item to save text item */
 	private JMenuItem saveTextItem;
+	
+	/** Menu item to rent a DVD */
 	private JMenuItem rentDVD;
+	
+	/** Menu item to rent a game */
 	private JMenuItem rentGame;
+	
+	/** Menu item to return a game or DVD */
 	private JMenuItem returnItem;
+	
+	/** menu item in each of the menus */
 	private JMenuItem showLateItem;
 
-	/**
-	 * Holds the list engine
-	 */
+	/** Holds the list engine */
 	private RentalStore list;
 
-	/**
-	 * Holds JListArea
-	 */
+	/** Holds JListArea */
 	private JList JListArea;
 
 	/** Scroll pane */
-	//private JScrollPane scrollList;
+	private JScrollPane scrollList;
 
+	/******************************************************************
+	 * Creates the elements of the GUI
+	 *****************************************************************/
 	public RentalStoreGUI() {
 
 		//adding menu bar and menu items
@@ -98,11 +107,10 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		//adding list to the GUI1024
 		list = new RentalStore();
 		JListArea = new JList(list);
-		add(JListArea);
-		JListArea.setVisible(true);
-
+		scrollList = new JScrollPane(JListArea);
+		add(scrollList);
 		setVisible(true);
-		setSize(650, 600);
+		setSize(650, 200);
 
 	}
 
@@ -147,7 +155,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 			RentGameDialog dialog = new RentGameDialog(this, game);
 			if (dialog.addGametoList() == true) 
 				list.add(game);
-		}
+		} 
 
 		if (e.getSource() == returnItem) {
 
@@ -225,8 +233,6 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 			catch (Exception ex ) {
 				JOptionPane.showMessageDialog(null, "Please enter" + 
 						" something that works for the return date");
-				
-				ex.printStackTrace();
 			}			
 		}
 	}
