@@ -1,7 +1,6 @@
 package project3;
 
 import javax.swing.*;
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,13 +13,18 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**********************************************************************
- * Creates the dialogue for when a game is rented
+ * The dialogue box for when a game is rented. Prompts the user for
+ * information about the game being rented.
  * 
  * @author Jarod Collier and Ben Burger
- * @version 7/7/18
+ * @version 7/16/18
  *********************************************************************/
 public class RentGameDialog  extends JDialog implements ActionListener {
 
+	/**  FIXME Jarod's Comment **/
+	private static final long serialVersionUID = 1L;
+	
+	
 	private JTextField titleTxt;
 	private JTextField renterTxt;
 	private JTextField rentedOnTxt;
