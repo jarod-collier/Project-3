@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -38,6 +40,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 	private JMenuItem rentDVD;
 	private JMenuItem rentGame;
 	private JMenuItem returnItem;
+	private JMenuItem showLateItem;
 
 	/**
 	 * Holds the list engine
@@ -66,6 +69,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		rentDVD = new JMenuItem("Rent DVD");
 		rentGame = new JMenuItem("Rent Game");
 		returnItem = new JMenuItem("Return");
+		showLateItem = new JMenuItem("Show Late Rentals");
 
 		//adding items to bar
 		fileMenu.add(openSerItem);
@@ -74,6 +78,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		actionMenu.add(rentDVD);
 		actionMenu.add(rentGame);
 		actionMenu.add(returnItem);
+		actionMenu.add(showLateItem);
 
 		menus.add(fileMenu);
 		menus.add(actionMenu);
@@ -85,6 +90,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		rentDVD.addActionListener(this);
 		rentGame.addActionListener(this);
 		returnItem.addActionListener(this);
+		showLateItem.addActionListener(this);
 
 		setJMenuBar(menus);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,7 +99,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		list = new RentalStore();
 		JListArea = new JList(list);
 		add(JListArea);
-			JListArea.setVisible(true);
+		JListArea.setVisible(true);
 
 		setVisible(true);
 		setSize(650, 600);
@@ -124,39 +130,54 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 			}
 		}
 
-		//MenuBar options
+		// MenuBar options
 		if (e.getSource() == exitItem) {
 			System.exit(1);
 		}
-		
+
 		if (e.getSource() == rentDVD) {
 			DVD dvd = new DVD();
 			RentDVDDialog dialog = new RentDVDDialog(this, dvd);
-			list.add(dvd);
+			if (dialog.addDVDtoList() == true) 
+				list.add(dvd);
 		}
-		
+
 		if (e.getSource() == rentGame) {
 			Game game = new Game();
 			RentGameDialog dialog = new RentGameDialog(this, game);
-			list.add(game);
+			if (dialog.addGametoList() == true) 
+				list.add(game);
 		}
 
-		if (returnItem == e.getSource()) {
-			
+		if (e.getSource() == returnItem) {
+
 			int index = JListArea.getSelectedIndex();
 
-			GregorianCalendar date = new GregorianCalendar();
-			String inputDate = JOptionPane.showInputDialog("Enter return date: ");
-			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
 			try {
-				Date newDate = df.parse(inputDate);
-				date.setTime(newDate);
-				
-				DVD unit = list.get(index);
-				JOptionPane.showMessageDialog(null, "Thanks " + unit.getNameOfRenter() +
-						" for returning " + unit.getTitle() + ", you owe: " + unit.getCost(date) +
-						" dollars");
-				list.remove(unit);
+
+				if (index == -1) {
+					throw new IndexOutOfBoundsException();
+				}
+				else {
+
+					GregorianCalendar date = new GregorianCalendar();
+					String inputDate = JOptionPane.showInputDialog("Enter return date: ");
+					SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
+					Date newDate = df.parse(inputDate);
+					date.setTime(newDate);
+
+					DVD unit = list.get(index);
+					JOptionPane.showMessageDialog(null, "Thanks " + unit.getNameOfRenter() +
+							" for returning " + unit.getTitle() + ", you owe: " + unit.getCost(date) +
+							" dollars");
+					list.remove(unit);
+				}
+			}
+			catch (IndexOutOfBoundsException ie) {
+				JOptionPane.showMessageDialog(null, "Please select" + 
+						" an item");
 			}
 			catch (ParseException pe){
 				JOptionPane.showMessageDialog(null, "Please enter" + 
@@ -165,6 +186,47 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 			catch (Exception ex ) {
 				JOptionPane.showMessageDialog(null, "Please enter" + 
 						" something that works for the return date");
+			}			
+		}
+
+		if (e.getSource() == showLateItem) {
+
+		
+			try {
+				GregorianCalendar date = new GregorianCalendar();
+				String inputDate = JOptionPane.showInputDialog("Enter date: ");
+				SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
+				Date newDate = df.parse(inputDate);
+				date.setTime(newDate);
+				
+				int lateListIndex = 0;
+				String[] lateList = new String[list.getSize()];
+				
+				for (int i = 0; i < list.getSize(); i++) {
+					int milliRental = (int) list.get(i).getDueBack().getTimeInMillis();
+					int daysRental = milliRental / (24 * 60 * 60 * 1000);
+					int milliDate = (int) date.getTimeInMillis();
+					int daysDate = milliDate / (24 * 60 * 60 * 1000);
+					if (daysDate - daysRental > 0) {
+						lateList [lateListIndex] = list.get(i).toString() + ",  Days late: " + (daysDate - daysRental);
+						lateListIndex++;
+					}
+				}
+				if (lateList.length > 0)
+					JOptionPane.showMessageDialog(null, lateList, "Late List", JOptionPane.INFORMATION_MESSAGE);
+				else
+					JOptionPane.showMessageDialog(null, "There are no late rentals");
+			}
+			catch (ParseException pe) {
+				JOptionPane.showMessageDialog(null, "Please enter" + 
+						" valid damat");
+			}
+			catch (Exception ex ) {
+				JOptionPane.showMessageDialog(null, "Please enter" + 
+						" something that works for the return date");
+				
+				ex.printStackTrace();
 			}			
 		}
 	}

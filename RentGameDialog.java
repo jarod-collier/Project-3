@@ -30,6 +30,7 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 	private JButton okButton;
 	private JButton cancelButton;
 	private boolean closeStatus;
+	private boolean addGame;
 
 	private Game unit;
 
@@ -109,6 +110,8 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 			// save the information in the object
 			closeStatus = true;
 
+			addGame = true;
+			
 			// Sets Game buyer's name
 			unit.setNameOfRenter(renterTxt.getText());
 
@@ -139,6 +142,7 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 		}
 		
 		if (button == cancelButton) {
+			addGame = false;
 			dispose();
 		}
 		
@@ -229,5 +233,9 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 
 	public boolean closeOK() {
 		return closeStatus;
+	}
+	
+	public boolean addGametoList () {
+		return addGame;
 	}
 }

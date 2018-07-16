@@ -28,6 +28,7 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 	private JButton okButton;
 	private JButton cancelButton;
 	private boolean closeStatus;
+	private boolean addDVD;
 
 	private DVD unit;
 
@@ -39,10 +40,10 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 		closeStatus = false;
 		setSize(400, 200);
 
-		unit = d;
+		unit = d;  
 		
 		// prevent user from closing window
-		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); 
 
 		// instantiate and display text fields
 
@@ -97,7 +98,9 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 		if (button == okButton) {
 			// save the information in the object
 			closeStatus = true;
-
+			
+			addDVD = true;
+		
 			// Sets DVD buyer's name
 			unit.setNameOfRenter(renterTxt.getText());
 
@@ -120,6 +123,7 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 		}
 		
 		if (button == cancelButton) {
+			addDVD = false;
 			dispose();
 		}
 
@@ -199,5 +203,9 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 
 	public boolean closeOK() {
 		return closeStatus;
+	}
+	
+	public boolean addDVDtoList () {
+		return addDVD;
 	}
 }
