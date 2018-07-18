@@ -173,7 +173,7 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		try {
 			Date date = df.parse(rentedOnTxt.getText());
-			String[] buy = DueBackTxt.getText().split("/");
+			String[] buy = rentedOnTxt.getText().split("/");
 
 			GregorianCalendar cal = new GregorianCalendar();
 			cal.setTime(date);
