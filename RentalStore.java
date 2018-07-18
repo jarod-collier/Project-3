@@ -33,7 +33,6 @@ public class RentalStore extends AbstractListModel<DVD> {
 	
 	/******************************************************************
 	 * Adds a DVD object to the LinkedList listDVDs.
-	 * 
 	 * @param dvd - the DVD object being added to the list
 	 *****************************************************************/
 	public void add (DVD dvd) {
@@ -44,7 +43,6 @@ public class RentalStore extends AbstractListModel<DVD> {
 	
 	/******************************************************************
 	 * Removes a DVD object from the LinkedList listDVDs.
-	 * 
 	 * @param dvd - the DVD object being removed from the list
 	 *****************************************************************/
 	public void remove (DVD dvd) {
@@ -55,7 +53,6 @@ public class RentalStore extends AbstractListModel<DVD> {
 	
 	/******************************************************************
 	 * Returns the DVD object at the given index of listDVDs.
-	 * 
 	 * @param i - index of listDVDs
 	 * @return DVD - the DVD object at the given index
 	 *****************************************************************/
@@ -66,7 +63,6 @@ public class RentalStore extends AbstractListModel<DVD> {
 	
 	/******************************************************************
 	 * Returns the DVD object at the given index of listDVDs.
-	 * 
 	 * @param i - index of listDVDs
 	 * @return DVD - the DVD object at the given index
 	 *****************************************************************/
@@ -77,7 +73,6 @@ public class RentalStore extends AbstractListModel<DVD> {
 	
 	/******************************************************************
 	 * Returns the size of listDVDs.
-	 * 
 	 * @return int - the size of the list
 	 *****************************************************************/
 	public int getSize() {
@@ -87,7 +82,6 @@ public class RentalStore extends AbstractListModel<DVD> {
 
 	/****************************************************************** 
 	 * Saves listDVDs as a serializable file.
-	 * 
 	 * @param filename - file name that listDVDs is saved as
 	 *****************************************************************/
 	public void saveAsSerializable(String filename) {
@@ -106,7 +100,6 @@ public class RentalStore extends AbstractListModel<DVD> {
 	
 	/****************************************************************** 
 	 * Loads listDVDs from a serializable file.
-	 * 
 	 * @param filename - file name that listDVDs is loaded from
 	 *****************************************************************/
 	public void loadFromSerializable(String filename) {

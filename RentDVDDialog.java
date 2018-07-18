@@ -19,6 +19,9 @@ import java.util.GregorianCalendar;
  * @version 7/7/18
  *********************************************************************/
 public class RentDVDDialog extends JDialog implements ActionListener {
+	
+	/** Saves a DVD object as a binary file */
+	private static final long serialVersionUID = 1L;
 
 	/** Text field for the title of the DVD */
 	private JTextField titleTxt;
