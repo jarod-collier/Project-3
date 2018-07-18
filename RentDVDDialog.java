@@ -144,6 +144,13 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 
 			String[] greg = unit.convertDateToString(cal).split("/");
 
+			for (String i : s) {
+				System.out.println(i);
+			}
+			for (String i : greg) {
+				System.out.println(i);
+			}
+			
 			if (!s[0].equals(greg[0]) || !s[2].equals(greg[2]))
 				throw new Exception();
 
