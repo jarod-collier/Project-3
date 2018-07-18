@@ -13,7 +13,7 @@ import java.util.*;
  *********************************************************************/
 public class RentalStore extends AbstractListModel<DVD> {
 
-	/** TODO take Jarod's comment **/
+	/** Used to save the rental store as a binary file */
 	private static final long serialVersionUID = 1L;
 	
 	/** the list of DVD (also Game) rentals **/
